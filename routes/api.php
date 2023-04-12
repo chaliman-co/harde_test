@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExternalBooksController;
+use App\Http\Controllers\v1\BooksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::get("/external-books", [ExternalBooksController::class, "getBook"]);
+Route::group(['prefix' => 'v1'], function () {
+    Route::post("/books", [BooksController::class, "create"]);
+    Route::get("/books", [BooksController::class, "get"]);
+    Route::get("/books/{id}", [BooksController::class, "getById"]);
+    Route::patch("/books/{id}", [BooksController::class, "update"]);
+    Route::delete("/books/{id}", [BooksController::class, "delete"]);
 });
